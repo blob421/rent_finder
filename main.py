@@ -2,9 +2,14 @@ from controllers.kijiji import Kijiji
 import asyncio
 from aiohttp import ClientSession
 from utils.db_calls import init_db
+from controllers.notifications import Notifier
 
-async def kijiji_main(session):
-    kijiji = Kijiji(session)
+
+async def kijiji_main(session, notifier):
+    
+
+    kijiji = Kijiji(session, notifier)
+
     while True:
        
         await kijiji.fetch_links()
@@ -13,8 +18,9 @@ async def kijiji_main(session):
 
 async def main():
     await init_db()
+    notifier = Notifier()
     session = ClientSession()
-    await asyncio.gather(kijiji_main(session))
+    await asyncio.gather(kijiji_main(session, notifier))
       
 
 

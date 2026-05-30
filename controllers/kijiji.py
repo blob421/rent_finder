@@ -8,8 +8,9 @@ import random
 
 
 class Kijiji:
-    def __init__(self, client):
+    def __init__(self, client, notifier):
         self.session = client
+        self.notifier = notifier
    
     @staticmethod
     def use_session(fn):
@@ -94,6 +95,7 @@ class Kijiji:
                                 valid = False
 
                         if valid:
+                            self.notifier.send('Found an appartment !', f'Source: Kijiji, price: {price}$')
                             print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
                             print('\nFOUND A VALID APPARTMENT ON KIJIJI')
                             print(f'Price: {price}')
