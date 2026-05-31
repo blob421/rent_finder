@@ -1,13 +1,21 @@
 from bs4 import BeautifulSoup
-import subprocess
 import aiohttp
 import json
 import asyncio
+from utils.fetch_w_curl import fetch_with_curl
 from utils.db_calls import storelinks, get_links, mark_valid, storeFullData
-from utils.validate import url_valid, parse_json
+from utils.validate import url_valid, parse_json, extractRootJson, hasStructureChanged
 import random
+import logging
+import os
 
+########################## LOGGING ###############################
+current_dir = os.path.dirname(__file__)
+log_path = os.path.abspath(os.path.join(current_dir, '../rent_finder.log'))
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='rent_finder.log', level=logging.INFO)
 
+###################################################################
 class ClientMain:
     def __init__(self, client, notifier, browser):
         self.session = client
@@ -26,7 +34,7 @@ class ClientMain:
 
         return wrapper
             
-############################### FETCH AND SAVE ############################################
+############################### FETCH LINKS AND SAVE ############################################
     @use_session
     async def fetch_links(self, err_str='Error fetching links'):
         for n in range(4):
@@ -46,7 +54,8 @@ class ClientMain:
                      {'source': 'GestiPro', 'limit' : 2, 'urls': [f'https://gestipro.info/resultats/page/{n+1}/?areas%5B0%5D=quebec&animaux&max-price=1000']},
                      
                      {'source': 'Centris', 'limit': 0, 'urls': ['https://www.centris.ca/fr/propriete~a-louer?sort=None&sortSeed=1450136492&pageSize=20&q=H4sIAAAAAAAACo2PzU_CQBDF_xWyJ016aEz8wBvBjxiNUSF4EA5D95VO2Hbr7hZtCP-7U5BYQRNu8978ZubNUuXGq0sVq0hNnZ3D9a2GGKJtmnKCe9QbWXncws4clVk9yKiEzMWR8k05YnyIfJuIBrkke6T8e0vKJsA1zaXKKSTZsC6bVp9DfcU-OE6CYAGfQdxXFJrmEIO1yJOLc7WK_h_sGfMz-1yNqzi-7k6RdI6GtvIdA98h52yh2XvkKII_3q4-UytJmzKM9iMyFTYR18ad3g-4aJhWpL_BTaAtKzd-kxQws65uIS_wrCUYk9mBBzCGi9n66zZfhB3wgRfC9RyoxQ3eK3K4AfZoKvShbHPsSd5qB4gPYLqnQk1WX8tKpwVdAgAA&v=2&view=Thumbnail']},
-                     {'source': 'Louer', 'limit': 3 , 'urls': [f'https://louer.ca/quebec-city?types=tous-les-appartements&types=chambres&prix-min=0&prix-max=1000&p={n + 1}']}]
+                     {'source': 'Louer', 'limit': 3 , 'urls': [f'https://louer.ca/quebec-city?types=tous-les-appartements&types=chambres&prix-min=0&prix-max=1000&p={n + 1}']},
+                     {'source': 'RoomLala', 'limit': 2, 'urls': [f'https://fr.roomlala.ca/chambre-a-louer/wendake-795313/{n + 1}?nightRateMax=80&monthRateMax=800']}]
             
             for obj in urls:
 
@@ -62,9 +71,9 @@ class ClientMain:
 
                     elif source == 'Louer':
                         hrefs = await self.browser.getPageHtml(url, source)
-                        
+
                         if not hrefs:
-                            return
+                            continue
                     
                     else:
                         response = await self.session.get(url)
@@ -77,15 +86,22 @@ class ClientMain:
                             
                             text_data = await response.text()
 
-            
-                
+                 
+               
                     await self.save_links(text_data, source, hrefs)
                 
 
 
     async def save_links(self, data, source, full_data=None):
-        
-        if not full_data:
+
+        if source == 'RoomLala':
+            
+            urls = extractRootJson(data, source)
+            if urls:
+                await storelinks(urls, source)
+             
+
+        elif not full_data:
             soup = BeautifulSoup(data, 'html.parser')
     
             anchors = soup.find_all('a')
@@ -101,12 +117,24 @@ class ClientMain:
             
                 await storelinks(listings, source)
         else:
-            await storeFullData(full_data)
+       
+            for obj in full_data:
+ 
+                if not obj.get('url'): continue
+             
+                valid = self.validate(source, obj.get('address', None), obj.get('price', None))
+            
+             
+                obj['valid'] = True if valid else False
+                          
+        
+
+            await storeFullData(obj, source)
      
       
 
 #################### RETRIEVING AND FILTERING #######################################################
-
+    
 
     @use_session
     async def get_page(self, url, err_str='Failed to get a single page'):
@@ -142,6 +170,8 @@ class ClientMain:
                     data = s.string
                     parsed = json.loads(data)
                     result = parse_json(parsed, source)
+                   
+
 
                     if result:
                         
@@ -150,63 +180,45 @@ class ClientMain:
                         description = result.get('description') or description
 
                         
+                if source == 'GestiPro' and not price:
+                    pricetag = soup.find('span', {'class': 'price'})
+                    if pricetag:
+                         price = pricetag.get_text(strip=True).replace('$', '').replace(',', '')
 
+                hasStructureChanged(source, {'price': price, 'description': description})
 
-                if address:
-                    if 'wendake' in address.lower() or 'g0a' in address.lower():
-                        valid = True
-
-                    elif description and 'wendake' in description.lower():
-                        valid = True
-
-                if price and int(price) > 950:
-                        valid = False
-                        
-
-                if valid:
-                        
-                        self.notifier.send('Found an appartment !', f'Source: Kijiji, price: {price}$')
-                        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-                        print('\nFOUND A VALID APPARTMENT ON KIJIJI')
-                        print(f'Price: {price}')
-                        print('\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+                valid = self.validate(source, address, price, description)
+           
 
                 await mark_valid({'url':l, 'price': price, 'valid': valid})
                         
 
-
-    async def test_site(self):
-        url=  'https://www.lespac.com/search/results?keywords=logement&geographicAreaId=15769&latitude=46.870284000000005&longitude=-71.36330700000018&cityLocation=true&categoryId=457'
- 
-         
-
-        data = await self.browser.getPageHtml(url)
-        print(data)
        
-     
+
+    def validate(self, source, address, price, description=None):
+        valid = False
+        if address:
+            if 'wendake' in address.lower() or 'g0a' in address.lower():
+                valid = True
+
+        if description and 'wendake' in description.lower():
+                valid = True
+
+        if price and int(price) > 950:
+                valid = False
+
+        if valid:
+             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+             print(f'\nFound a valid appartment !, Source: {source} , Price: {price}')
+             print('\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+
+             self.notifier.send('Found an appartment !', f"""Source: {source}, 
+                                                             Price: {price}$""")
+
+        return valid
+            
+ 
       
-
-
-  
-
-async def fetch_with_curl(url):
-    process = await asyncio.create_subprocess_exec(
-        "curl",
-        "-4",  
-        "-s",
-        "-L",         
-        url,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE
-    )
-
-    stdout, stderr = await process.communicate()
-
-    if process.returncode != 0:
-        print("curl error:", stderr.decode())
-        return None
-  
-    return stdout.decode()
 
 
 

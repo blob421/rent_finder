@@ -14,7 +14,7 @@ async def client_main(session, notifier, browser):
         #await client.test_site()
         await client.fetch_links()
         await client.filterLinks()
-        await asyncio.sleep(60* 60)
+        await asyncio.sleep(60* 60 * 2)
 
 async def main():
     await init_db()

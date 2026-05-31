@@ -1,8 +1,15 @@
+from bs4 import BeautifulSoup
+import json
+import re
+
+logisqc_regex = r'^/[^/]+$'
+
+#This function is for filtering <a> tags from a whole page 
 def url_valid(url:str, source):
     if not url : return
     if url.startswith("https://www.kijiji.ca") and not 'radius=' in url:
         return True
-    elif source == 'LogisQuebec' and url.startswith('/') and len(url) > 10:
+    elif source == 'LogisQuebec' and url.startswith('/') and len(url) > 20 and re.match(logisqc_regex, url):
         return True
     elif source == 'LesPacs' and url.startswith('https://www.lespac.com/'):
         return True
@@ -19,10 +26,51 @@ def url_valid(url:str, source):
         return False
     
 
-def parse_json(data, source):
+### Function for extrating data from a list of cards in the form of ld+json scripts.  
+def extractRootJson(data, source):
+    soup = BeautifulSoup(data, 'html.parser')
+    scripts = soup.find_all("script", {"type": "application/ld+json"}) 
+    urls = []
+    if scripts:
+        for s in scripts:
+            text = s.string
+            parsed = json.loads(text)
+          
+            if source == 'RoomLala':
+                if parsed.get('@type') == 'ItemList':
+                    item_list = parsed.get('itemListElement', [])
+                    if item_list:
+                        for i in item_list:
+                            item = i.get('item', {})
+                            url:str = item.get('url', None)
+                            if not url: continue
+                            urls.append('https://fr.roomlala.ca' + url.replace('\\', '/'))
+
+        return urls
+   
     
-    if data.get('@type') and data['@type'] in ['SingleFamilyResidence', 'Product', 'RealEstateListing', 'Place']:
+### Function for extracting data from a products page in the form of ld+json scripts
+def parse_json(data, source):
+  
+    if data.get('@type') and data['@type'] in ['SingleFamilyResidence', 'Product', 'RealEstateListing', 'Place',
+                                               'LodgingBusiness', 'ApartmentComplex']:
         description = None
+        address = None
+
+        if source == 'RoomLala':
+            description = data.get('description', None)
+            location = data.get('address', {})
+            address = location.get('postalCode', None)
+            offers = data.get("makesOffer", [])
+            print(address)
+            price = None
+            for offer in offers:
+                spec = offer.get("priceSpecification", {})
+                if spec.get("unitText") == "month":
+                    price = spec.get("price", price)
+                    print(price)
+
+
         if source != 'Louer':
          
             offers = data.get("offers") or {}
@@ -45,20 +93,30 @@ def parse_json(data, source):
             location = data.get('address') or {}
             address = location.get('streetAddress', None) 
             description = data.get('description', None)
+            print(description)
 
-        elif source == 'Louer':
-            actions = data.get('potentialAction') or {}
-            specs = actions.get('priceSpecification', {})
-            price = specs.get('price', None)
-            description = data.get('description', None)
-
-            location = data.get('address') or {}
-            address = location.get('postalCode', None)
-
-
-
-        return {'address': address, 'price': price, 'description': description}
+      
+      
+        new_data = {'address': address, 'price': price, 'description': description}
+       
+        return new_data
     
     return None
 
+
+def hasStructureChanged(source, data):
+    if source in ['RoomLala', 'Louer', 'GestiPro', 'DuPropio']:
+
+        if not data.get('price'):
+            print(f'Price not found for {source}')
+            print('Stucture might have changed')
+
+        if not data.get('description'):
+            print(f'Description not found for {source}')
+            print('Stucture might have changed')
+
+    else:
+        if not data.get('price'):
+            print(f'Price not found for {source}')
+            print('Stucture might have changed')
 

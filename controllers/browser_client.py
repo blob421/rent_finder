@@ -2,10 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-import time
-from utils.validate import url_valid
 import json
 
 
@@ -52,9 +49,29 @@ class BrowserClient:
                             url = data.get('url', None)
                             if not url:
                                 continue
+                            price = data.get("potentialAction", {}).get("priceSpecification", {}).get("price") or None
+                         
+                            if price is None:
+                                    listings = data.get('containsPlace', [])
+                                    if listings:
+                                        for i in listings:
+                                            pot = i.get('potentialAction', {})
+                                            spec = pot.get('priceSpecification', {})
+                                            listing_price = spec.get('price')
+
+                                            if listing_price is not None:
+                                                # Convert both to int safely
+                                                try:
+                                                    lp = int(listing_price)
+                                                except:
+                                                    continue
+
+                                                if price is None or lp < int(price):
+                                                    price = lp
+
                             listings.append({
                                 "url": data.get("url"),
-                                "price": data.get("potentialAction", {}).get("priceSpecification", {}).get("price"),
+                                "price": price,
                                 "address": data.get("address", {}).get('postalCode', None),
                             
                             })
