@@ -1,26 +1,27 @@
-from controllers.kijiji import Kijiji
+from controllers.client import ClientMain
 import asyncio
 from aiohttp import ClientSession
 from utils.db_calls import init_db
 from controllers.notifications import Notifier
+from controllers.browser_client import BrowserClient
 
-
-async def kijiji_main(session, notifier):
+async def client_main(session, notifier, browser):
     
-
-    kijiji = Kijiji(session, notifier)
+    
+    client = ClientMain(session, notifier, browser)
 
     while True:
-       
-        await kijiji.fetch_links()
-        await kijiji.filterLinks()
+        #await client.test_site()
+        await client.fetch_links()
+        await client.filterLinks()
         await asyncio.sleep(60* 60)
 
 async def main():
     await init_db()
     notifier = Notifier()
+    browser = BrowserClient()
     session = ClientSession()
-    await asyncio.gather(kijiji_main(session, notifier))
+    await asyncio.gather(client_main(session, notifier, browser))
       
 
 
