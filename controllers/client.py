@@ -245,7 +245,7 @@ class ClientMain:
         soup = BeautifulSoup(html, 'html.parser')
         anch = soup.find_all('a', class_="MuiButtonBase-root")
         print(len(anch))
-        print([a.get('href') for a in anch])
+      
 
         #print([a.get('href') for a in anch])
         await self.browser.stop_alt()

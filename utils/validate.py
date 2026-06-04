@@ -133,7 +133,7 @@ def parse_json(data, source):
             location = data.get('address') or {}
             address = location.get('streetAddress', None) 
             description = data.get('description', None)
-            print(description)
+         
 
       
      
@@ -150,7 +150,7 @@ def hasStructureChanged(source, data):
 
     if source in ['RoomLala', 'Louer', 'GestiPro', 'DuPropio']:
 
-        if not data.get('price'):
+        if data.get('price') == None:
             print(f'Price not found for {source}')
             print('Stucture might have changed')
 
@@ -159,7 +159,7 @@ def hasStructureChanged(source, data):
             print('Stucture might have changed')
 
     else:
-        if not data.get('price'):
+        if data.get('price') == None:
             print(f'Price not found for {source}')
             print('Stucture might have changed')
 

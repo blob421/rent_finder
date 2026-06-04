@@ -29,7 +29,7 @@ class BrowserClient:
 
     async def start_alt(self):
         self.playwright_client = await async_playwright().start()
-        self.alt_driver = await self.playwright_client.chromium.launch(headless=False)
+        self.alt_driver = await self.playwright_client.chromium.launch(headless=True, channel='chromium')
         self.page = await self.alt_driver.new_page()
      
     async def stop_alt(self):
@@ -44,7 +44,7 @@ class BrowserClient:
         if source in ['rentals', 'LesPacs']:
   
             await self.page.goto(url)
-            
+
             if source == 'LesPacs':
 
                 for i in range(4):
