@@ -95,3 +95,74 @@ ERROR:asyncio:Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x7018bfdf11f0>
 ERROR:asyncio:Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x7f3b78139670>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7fb8d79aa3c0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7066056752b0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x76febfee4800>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f2e585429c0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x72583464b950>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x739f4bace5a0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7efa14ac2000>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x727014140ad0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x71f03400f980>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x77035e313230>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x75cae7715670>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x73844df9db80>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x712a657d5ac0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7d08cc785160>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7271129d3530>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7e982721c440>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x773fb1921670>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x78c3b69a0680>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x70848ce2c440>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x73ad2b5a51c0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7e9279cb63c0>
+WARNING:selenium.webdriver.common.selenium_manager:There was an error managing chrome; using browser found in the cache
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x75d532e02300>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7a9705a9e0c0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x76b6464b30b0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x76ce9884b8c0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x718d24392d20>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7774465c1670>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7d55cdfe0950>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7b82f9f02f00>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x74591fcb1ac0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7e8d8ad39670>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x710e6e252fc0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7b20572b1670>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x712297281670>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x78d096407110>

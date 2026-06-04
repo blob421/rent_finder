@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
 import json
 from playwright.async_api import async_playwright
-
+import math
 
 class BrowserClient:
     def __init__(self):
@@ -41,13 +41,31 @@ class BrowserClient:
     async def getPageHtml(self, url, source):
 
         
-        if source == 'rentals':
+        if source in ['rentals', 'LesPacs']:
   
             await self.page.goto(url)
+            
+            if source == 'LesPacs':
+
+                for i in range(4):
+                    portion = math.floor(5 - i)
+                
+
+                    await self.page.evaluate(f"window.scrollTo(0, document.body.scrollHeight / {portion})")
+                    await self.page.wait_for_timeout(500)
+
+                for i in range(3):
+                    portion = 1 + ((4 - i) * 0.20)
+                    await self.page.evaluate(f"window.scrollTo(0, document.body.scrollHeight / {portion})")
+                    await self.page.wait_for_timeout(500)
+
+                await self.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                await self.page.wait_for_timeout(500)
+
             html = await self.page.content()
 
             return html
-
+  
         elif source == 'Louer':
            
             self.driver.get(url)

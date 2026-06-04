@@ -57,7 +57,20 @@ def extractRootJson(data, source):
 
         return urls
    
-    
+def parseLesPacs(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    address = soup.find('div', id='detailProduct').get_text() or None
+    price = soup.find('p', class_='price').get_text() or None
+    description = soup.find('div', id='description').get_text() or None
+  
+
+    if price:
+        price = clean_price(price)
+
+
+
+    return address, price, description
+
 ### Function for extracting data from a products page in the form of ld+json scripts
 def parse_json(data, source):
   
@@ -88,12 +101,12 @@ def parse_json(data, source):
 
             address = data.get('address', None)
         
+
         elif source == 'LogisQuebec':
             location = data.get('address') or {}
             address = location.get('streetAddress', None)
 
-
-        
+ 
         elif source == 'rentals':
             description = data.get('description', None)
             location = data.get('address', {})
@@ -150,3 +163,20 @@ def hasStructureChanged(source, data):
             print(f'Price not found for {source}')
             print('Stucture might have changed')
 
+
+import re
+
+def clean_price(raw):
+    if not raw:
+        return None
+
+    # Remove non-breaking spaces and any unicode spaces
+    cleaned = re.sub(r'\s+', '', raw)
+
+    # Remove currency symbols
+    cleaned = cleaned.replace('$', '').replace('CAD', '')
+
+    # Remove commas
+    cleaned = cleaned.replace(',', '')
+
+    return int(cleaned)

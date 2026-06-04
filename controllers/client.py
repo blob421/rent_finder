@@ -4,7 +4,7 @@ import json
 import asyncio
 from utils.fetch_w_curl import fetch_with_curl
 from utils.db_calls import storelinks, get_links, mark_valid, storeFullData
-from utils.validate import url_valid, parse_json, extractRootJson, hasStructureChanged
+from utils.validate import url_valid, parse_json, extractRootJson, hasStructureChanged, parseLesPacs
 import random
 import logging
 import os
@@ -45,13 +45,11 @@ class ClientMain:
                      'urls': [f'https://www.kijiji.ca/b-a-louer/ville-de-quebec/logement/page-{n+1}/k0c30349001l1700121?ll=46.8715568%2C-71.36205240000001&radius=4.0&view=list',
                               f'https://www.kijiji.ca/b-a-louer/ville-de-quebec/chambre/page-{n+1}/k0c30349001l1700124?ll=46.8715568%2C-71.36205240000001&radius=4.0&view=list']
                       },
-
-                    {'source': 'LogisQuebec', 'limit': 2, 
+                      {'source': 'LogisQuebec', 'limit': 2, 
                      'urls': [f'https://www.logisquebec.com/result-search/?source=a_louer&query=Wendake&lq-query=Wendake&type=&room=0&prix_min=0&prix_max=999999999&region=13&ville=1716&tri=1&page={n + 1}']},
                  
-                    {'source': 'LesPacs', 'limit': 0, 
-                     'urls': ['https://www.lespac.com/search/results?keywords=logement&geographicAreaId=15769&latitude=46.870284000000005&longitude=-71.36330700000018&cityLocation=true&categoryId=457']},
-                     
+                    {'source': 'LesPacs', 'limit': 2, 
+                     'urls': [f'https://www.lespac.com/en/wendake/logement_b457g15769k{n+1}R1.jsa?ncc=dx0e46P870284000000005fM71P36330700000018h0i1irZ006dHJ1ZQis20j0']},
                      {'source': 'DuProprio', 'limit': 1, 'urls': ['https://duproprio.com/fr/location/quebec-rive-nord/wendake']},
                      
                      {'source': 'GestiPro', 'limit' : 2, 'urls': [f'https://gestipro.info/resultats/page/{n+1}/?areas%5B0%5D=quebec&animaux&max-price=1000']},
@@ -60,6 +58,8 @@ class ClientMain:
                      {'source': 'Louer', 'limit': 3 , 'urls': [f'https://louer.ca/quebec-city?types=tous-les-appartements&types=chambres&prix-min=0&prix-max=1000&p={n + 1}']},
                      {'source': 'RoomLala', 'limit': 2, 'urls': [f'https://fr.roomlala.ca/chambre-a-louer/wendake-795313/{n + 1}?nightRateMax=80&monthRateMax=800']},
                      {'source': 'rentals', 'limit': 2, 'urls': [f'https://rentals.ca/quebec-city/under-1000?p={n + 1}']}]
+            
+                
             
     
 
@@ -75,6 +75,10 @@ class ClientMain:
 
                     if source == 'LogisQuebec':
                         text_data = await fetch_with_curl(url)
+
+                    elif source == 'LesPacs':
+                        text_data = await self.browser.getPageHtml(url, source)
+
                 
                     elif source == 'Louer':
                         hrefs = await self.browser.getPageHtml(url, source)
@@ -115,11 +119,16 @@ class ClientMain:
             if urls:
                 await storelinks(urls, source)
              
-
+        
         elif not full_data:
             soup = BeautifulSoup(data, 'html.parser')
-    
-            anchors = soup.find_all('a')
+            
+            if source == 'LesPacs':
+                    anchors = soup.find_all('a', class_="MuiButtonBase-root")
+            else:
+                anchors = soup.find_all('a')
+
+
             listings = [a.get('href') for a in anchors if a.get('href') and url_valid(a.get('href'), source)]
 
             if source == 'LogisQuebec':
@@ -173,8 +182,9 @@ class ClientMain:
 
                 await asyncio.sleep(random.uniform(2.5, 6.0))  ### Human like behavior
                 valid = False
+                
 
-                if source == 'rentals': 
+                if source in ['rentals', 'LesPacs']: 
                     if not playwright_started:
                         await self.browser.start_alt() ## start playwright
                         playwright_started = True
@@ -184,33 +194,37 @@ class ClientMain:
                 else:
                     data = await self.get_page(l)
 
-                soup = BeautifulSoup(data, 'html.parser')
-                scripts = soup.find_all("script", {"type": "application/ld+json"}) 
+                if source == 'LesPacs':
+                    address, price, description = parseLesPacs(data)
 
-                price = None
-                address = None
-                description = None
-                valid = False
+                else:
+                    soup = BeautifulSoup(data, 'html.parser')
+                    scripts = soup.find_all("script", {"type": "application/ld+json"}) 
 
-                for s in scripts:
+                    price = None
+                    address = None
+                    description = None
+                    valid = False
 
-                    data = s.string
-                    parsed = json.loads(data)
-                    result = parse_json(parsed, source)
-                   
+                    for s in scripts:
 
-
-                    if result:
-                        
-                        price = result.get('price') or price
-                        address = result.get('address') or address
-                        description = result.get('description') or description
-
+                        data = s.string
+                        parsed = json.loads(data)
+                        result = parse_json(parsed, source)
                     
-                if source == 'GestiPro' and not price:
-                    pricetag = soup.find('span', {'class': 'price'})
-                    if pricetag:
-                         price = pricetag.get_text(strip=True).replace('$', '').replace(',', '')
+
+
+                        if result:
+                            
+                            price = result.get('price') or price
+                            address = result.get('address') or address
+                            description = result.get('description') or description
+
+                        
+                    if source == 'GestiPro' and not price:
+                        pricetag = soup.find('span', {'class': 'price'})
+                        if pricetag:
+                            price = pricetag.get_text(strip=True).replace('$', '').replace(',', '')
 
                 hasStructureChanged(source, {'price': price, 'description': description, 'address': address})
 
@@ -224,9 +238,17 @@ class ClientMain:
         
                         
     async def test_site(self):
-        url = f'https://rentals.ca/quebec-city?p=1'
+        await self.browser.start_alt()
+        url = f'https://www.lespac.com/search/results?keywords=logement&geographicAreaId=15769&latitude=46.870284000000005&longitude=-71.36330700000018&cityLocation=true&categoryId=457'
 
-        await self.browser.getPageHtml(url, 'rentals')
+        html = await self.browser.getPageHtml(url, 'LesPacs')
+        soup = BeautifulSoup(html, 'html.parser')
+        anch = soup.find_all('a', class_="MuiButtonBase-root")
+        print(len(anch))
+        print([a.get('href') for a in anch])
+
+        #print([a.get('href') for a in anch])
+        await self.browser.stop_alt()
        
 
     def validate(self, source, address, price, description=None):
