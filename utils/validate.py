@@ -95,6 +95,7 @@ def parse_json(data, source):
 
         
         elif source == 'rentals':
+            description = data.get('description', None)
             location = data.get('address', {})
             address = location.get('postalCode', None)
             price_items = data.get('containsPlace', None)
@@ -131,6 +132,9 @@ def parse_json(data, source):
 
 
 def hasStructureChanged(source, data):
+    if not data.get('address') or len(data.get('address')) < 3:
+        print(f'Address missing for {source}')
+
     if source in ['RoomLala', 'Louer', 'GestiPro', 'DuPropio']:
 
         if not data.get('price'):

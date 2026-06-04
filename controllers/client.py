@@ -206,13 +206,13 @@ class ClientMain:
                         address = result.get('address') or address
                         description = result.get('description') or description
 
-                        
+                    
                 if source == 'GestiPro' and not price:
                     pricetag = soup.find('span', {'class': 'price'})
                     if pricetag:
                          price = pricetag.get_text(strip=True).replace('$', '').replace(',', '')
 
-                hasStructureChanged(source, {'price': price, 'description': description})
+                hasStructureChanged(source, {'price': price, 'description': description, 'address': address})
 
                 valid = self.validate(source, address, price, description)
            
