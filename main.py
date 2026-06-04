@@ -12,7 +12,7 @@ async def client_main(session, notifier, browser):
 
     while True:
         #await client.test_site()
-        await client.fetch_links()
+        #await client.fetch_links()
         await client.filterLinks()
         await asyncio.sleep(60* 60 * 2)
 

@@ -1,0 +1,97 @@
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x75d61deb2480>
+ERROR:asyncio:Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x75d61a9fe150>, 922860.525228682)])', 'deque([(<aiohttp.client_proto.ResponseHandler object at 0x75d61a012f30>, 922868.11107423)])']
+connector: <aiohttp.connector.TCPConnector object at 0x75d61d433fb0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7917a49f28d0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x72dec25f10d0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7e6a72d66600>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x792733955790>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x786869b0eb40>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x77e35a2a41d0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7cc8959ea480>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7d3eba63ae10>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7a8842be2cf0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7a42d0ec5e80>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x71b470839b50>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x77cdb64c5b80>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7296ffb7df40>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7345784e0ef0>
+INFO:undetected_chromedriver.patcher:patching driver executable /home/blob421/.local/share/undetected_chromedriver/undetected_chromedriver
+INFO:uc:ensuring close
+INFO:uc:ensuring close
+INFO:undetected_chromedriver.patcher:patching driver executable /home/blob421/.local/share/undetected_chromedriver/undetected_chromedriver
+INFO:uc:ensuring close
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7e8569f4c500>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7e0163d99eb0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7c6b42b41af0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7ed366149b80>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x73db402a26c0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7b24a6203770>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7bc1cefb8e90>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f0e2c21b770>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f796b4039b0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x797e0f9f7800>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7b62a34bdac0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7e28806c38c0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7bb135a91100>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7c81b8618200>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7761f2ff6180>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7c32b2e98950>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7cf18fee5fd0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x722a4031d4f0>
+ERROR:asyncio:Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x722a3e378a10>, 1188820.0009289)])']
+connector: <aiohttp.connector.TCPConnector object at 0x722a3fc7f950>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7b2121ccfd40>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x70c77dec9670>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7ef56d6d9880>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x743c75b0de80>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x723ccb39dc70>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7d5298c59ac0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7a0f3a2b1670>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7e1cae023020>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7018bfdf11f0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f3b78139670>

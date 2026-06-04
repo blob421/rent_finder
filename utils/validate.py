@@ -7,16 +7,25 @@ logisqc_regex = r'^/[^/]+$'
 #This function is for filtering <a> tags from a whole page 
 def url_valid(url:str, source):
     if not url : return
-    if url.startswith("https://www.kijiji.ca") and not 'radius=' in url:
+
+    if source == 'Kijiji' and url.startswith("https://www.kijiji.ca") and not 'radius=' in url:
         return True
+        
+    elif source == 'rentals' and url.startswith('https://rentals.ca/quebec-city/'):
+        return True
+        
     elif source == 'LogisQuebec' and url.startswith('/') and len(url) > 20 and re.match(logisqc_regex, url):
         return True
+    
     elif source == 'LesPacs' and url.startswith('https://www.lespac.com/'):
         return True
+    
     elif source == 'DuProprio' and url.startswith('https://duproprio.com/fr/location/quebec-rive-nord/'):
         return True
+    
     elif source == 'GestiPro' and url.startswith('https://gestipro.info/propriete/'):
         return True
+    
     elif source == 'Centris' and url.startswith('https://www.centris.ca/fr/'):
         return True
     
@@ -53,7 +62,7 @@ def extractRootJson(data, source):
 def parse_json(data, source):
   
     if data.get('@type') and data['@type'] in ['SingleFamilyResidence', 'Product', 'RealEstateListing', 'Place',
-                                               'LodgingBusiness', 'ApartmentComplex']:
+                                               'LodgingBusiness', 'ApartmentComplex', 'Accommodation']:
         description = None
         address = None
 
@@ -62,16 +71,15 @@ def parse_json(data, source):
             location = data.get('address', {})
             address = location.get('postalCode', None)
             offers = data.get("makesOffer", [])
-            print(address)
             price = None
             for offer in offers:
                 spec = offer.get("priceSpecification", {})
                 if spec.get("unitText") == "month":
                     price = spec.get("price", price)
-                    print(price)
+             
 
-
-        if source != 'Louer':
+        
+        if source not in ['Louer', 'rentals']:
          
             offers = data.get("offers") or {}
             price = offers.get("price", None)
@@ -83,7 +91,25 @@ def parse_json(data, source):
         elif source == 'LogisQuebec':
             location = data.get('address') or {}
             address = location.get('streetAddress', None)
+
+
         
+        elif source == 'rentals':
+            location = data.get('address', {})
+            address = location.get('postalCode', None)
+            price_items = data.get('containsPlace', None)
+            if price_items is not None:
+                price = None
+                for i in price_items:
+                    obj = i.get('potentialAction', {})
+                    if not obj: continue
+
+                    listing_price = obj.get('priceSpecification', {}).get('price', None)
+                    if listing_price:
+                          converted_price = int(listing_price)
+                          if not price or converted_price < price:
+                              price = converted_price
+
 
         elif source == 'DuProprio':
             address = data.get('name')
@@ -96,7 +122,7 @@ def parse_json(data, source):
             print(description)
 
       
-      
+     
         new_data = {'address': address, 'price': price, 'description': description}
        
         return new_data

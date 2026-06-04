@@ -2,8 +2,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
 import json
+from playwright.async_api import async_playwright
 
 
 class BrowserClient:
@@ -12,30 +14,46 @@ class BrowserClient:
         self.options.add_argument("--headless=new")
         self.options.add_argument("--disable-gpu")
         self.options.add_argument("--no-sandbox")
-        self.driver = webdriver.Chrome(options=self.options)
 
-    def done(self):
-        self.driver.quit()
+        self.playwright_client = None
+        self.alt_driver = None
+    
+        
 
+    def stop(self):
+        if self.driver:
+            self.driver.quit()
+    
     def start(self):
         self.driver = webdriver.Chrome(options=self.options)
 
+    async def start_alt(self):
+        self.playwright_client = await async_playwright().start()
+        self.alt_driver = await self.playwright_client.chromium.launch(headless=False)
+        self.page = await self.alt_driver.new_page()
+     
+    async def stop_alt(self):
+        if self.alt_driver and self.playwright_client:
+            await self.alt_driver.close()
+            await self.playwright_client.stop()
+
+
     async def getPageHtml(self, url, source):
 
-        self.driver.get(url)
+        
+        if source == 'rentals':
+  
+            await self.page.goto(url)
+            html = await self.page.content()
 
-        if source == 'Louer':
+            return html
+
+        elif source == 'Louer':
+           
+            self.driver.get(url)
             try:
                 # Wait for at least one listing card to appear
-                WebDriverWait(self.driver, 20).until(
-                    lambda d: any(
-                        (
-                            "Apartment" in (txt := s.get_attribute("innerHTML")) or
-                            "ApartmentComplex" in txt
-                        ) and '"url"' in txt
-                        for s in d.find_elements(By.CSS_SELECTOR, "script[type='application/ld+json']")
-                    )
-                )
+                WebDriverWait(self.driver, 20).until(self.jsonld_ready)
 
 
                 scripts = self.driver.find_elements(By.CSS_SELECTOR, "script[type='application/ld+json']")
@@ -85,7 +103,7 @@ class BrowserClient:
                 print(f'No results : {url}\n Error: No more results')
                 return None
 
-            
+      
         
         
 
@@ -117,6 +135,22 @@ class BrowserClient:
                 })
 
             return results
+        
+    def jsonld_ready(self, driver):
+        try:
+            scripts = driver.find_elements(By.CSS_SELECTOR, "script[type='application/ld+json']")
+            for s in scripts:
+                try:
+                    txt = s.get_attribute("innerHTML")
+                    if "Apartment" in txt or "ApartmentComplex" in txt:
+                        return True
+                except StaleElementReferenceException:
+                    continue
+            return False
+        except:
+            return False
+
+
 
 
     
