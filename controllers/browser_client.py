@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
 import json
 from playwright.async_api import async_playwright
+
 import math
 
 class BrowserClient:

@@ -34,9 +34,16 @@ async def init_db(cur, err_str="Failed to init db"):
 @use_sqlite
 async def storelinks(cur, data:list, source, err_str='Error storing links'):
     time = datetime.now().isoformat()
-    for url in data:
-        
-        await cur.execute("""INSERT OR IGNORE INTO links(date, url, source) VALUES(?, ?, ?)""", [time, url, source])
+    if source == 'LesPacs':
+        for url in data:
+            prefix = url.split('.jsa')[0] if '.jsa' in url else url
+            await cur.execute("""INSERT OR IGNORE INTO links(date, url, source, url_prefix) VALUES(?, ?, ?, ?)""", 
+                              [time, url, source, prefix])
+    else:
+
+        for url in data:
+            
+            await cur.execute("""INSERT OR IGNORE INTO links(date, url, source) VALUES(?, ?, ?)""", [time, url, source])
 
 @use_sqlite
 async def get_links(cur, err_str='Failed to fetch links'):

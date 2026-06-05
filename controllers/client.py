@@ -124,7 +124,10 @@ class ClientMain:
             soup = BeautifulSoup(data, 'html.parser')
             
             if source == 'LesPacs':
+                
                     anchors = soup.find_all('a', class_="MuiButtonBase-root")
+              
+
             else:
                 anchors = soup.find_all('a')
 
@@ -136,6 +139,7 @@ class ClientMain:
                 listings = ['https://www.logisquebec.com' + u for u in listings]
             
       
+
             if listings:
             
             
