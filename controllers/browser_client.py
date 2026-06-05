@@ -6,10 +6,12 @@ from selenium.common.exceptions import TimeoutException, StaleElementReferenceEx
 import json
 from playwright.async_api import async_playwright
 import math
+import logging 
 
 class BrowserClient:
     def __init__(self):
         self.options = Options()
+        self.logger = logging.getLogger(__name__)
         self.options.add_argument("--headless=new")
         self.options.add_argument("--disable-gpu")
         self.options.add_argument("--no-sandbox")
@@ -116,7 +118,7 @@ class BrowserClient:
                 return {'result': listings, 'type': 'dataset'}
             
             except TimeoutException :
-                print(f'No results : {url}\n Error: No more results')
+                self.logger.info(f'No more results : {url}')
                 return None
 
       

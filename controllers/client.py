@@ -27,10 +27,11 @@ FETCH_METHODS = {
 }
 
 class ClientMain:
-    def __init__(self, client, notifier, browser):
+    def __init__(self, client, notifier, browser, config):
         self.session = client
         self.notifier = notifier
         self.browser = browser
+        self.config = config
    
     @staticmethod
     def use_session(fn):
@@ -259,13 +260,20 @@ class ClientMain:
     def validate(self, source, address, price, description=None):
         valid = False
         if address:
-            if 'wendake' in address.lower() or 'g0a' in address.lower():
+            if (self.config.get('keyword') in address.lower() 
+                                           or self.config.get('postal_code') in address.lower()
+                                           or self.config.get('p_alt') in address.lower()):
                 valid = True
 
-        if description and 'wendake' in description.lower():
+        if description:
+
+            if (self.config.get('keyword') in description.lower()
+                                           or self.config.get('postal_code') in description.lower()
+                                           or self.config.get('p_alt') in description.lower()):
                 valid = True
 
-        if price and int(price) > 950:
+        if price and int(price) > self.config.get('max_price'):
+                
                 valid = False
 
         if valid:

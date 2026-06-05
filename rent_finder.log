@@ -194,3 +194,7 @@ ERROR:asyncio:Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x7bc3045e9670>
 ERROR:asyncio:Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x799eaefabec0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x731a40224a40>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7454c122bbf0>
