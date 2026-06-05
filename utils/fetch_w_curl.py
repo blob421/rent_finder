@@ -19,4 +19,4 @@ async def fetch_with_curl(url):
         print("curl error:", stderr.decode())
         return None
   
-    return stdout.decode()
+    return {'result': stdout.decode(), 'type': 'page'}

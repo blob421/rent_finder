@@ -2,11 +2,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
 import json
 from playwright.async_api import async_playwright
-
 import math
 
 class BrowserClient:
@@ -20,7 +18,6 @@ class BrowserClient:
         self.alt_driver = None
     
         
-
     def stop(self):
         if self.driver:
             self.driver.quit()
@@ -65,7 +62,7 @@ class BrowserClient:
 
             html = await self.page.content()
 
-            return html
+            return {'result': html, 'type': 'page'}
   
         elif source == 'Louer':
            
@@ -116,7 +113,7 @@ class BrowserClient:
                         pass
                
 
-                return listings
+                return {'result': listings, 'type': 'dataset'}
             
             except TimeoutException :
                 print(f'No results : {url}\n Error: No more results')
@@ -124,36 +121,6 @@ class BrowserClient:
 
       
         
-        
-
-        else: 
-
-            cards = self.driver.find_elements(By.CSS_SELECTOR, "[data-listing-regionid]")
-
-            results = []
-
-            for card in cards:
-                try:
-                
-                    link = card.find_element(By.CSS_SELECTOR, "a").get_attribute("href")
-                    print(link)
-                except:
-                    link = None
-
-                price = card.get_attribute("data-listing-price")
-                listing_id = card.get_attribute("data-listing-id")
-                region = card.get_attribute("data-listing-region")
-                address = card.find_element(By.CSS_SELECTOR, "[data-cy*='cellDistanceList']").text
-
-                results.append({
-                    "id": listing_id,
-                    "url": link,
-                    "price": price,
-                    "address": address,
-                    "region": region
-                })
-
-            return results
         
     def jsonld_ready(self, driver):
         try:
