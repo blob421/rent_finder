@@ -13,8 +13,11 @@ import random
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'config.json')
 
 async def client_main(session, notifier, browser, config):
-    
-    
+    '╔══════════════════════════════════════════════╗'
+    print("\n\n######################################################")
+    print("-------------------- RENT FINDER ---------------------")
+    print("######################################################")
+    print('\nReady to blast')
     client = ClientMain(session, notifier, browser, config)
 
     while True:

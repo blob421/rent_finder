@@ -24,6 +24,7 @@ FETCH_METHODS = {
     "Kijiji": "aiohttp",
     "GestiPro": "aiohttp",
     "RoomLala": "aiohttp",
+    "DuProprio": "aiohttp"
 }
 
 class ClientMain:
@@ -49,7 +50,6 @@ class ClientMain:
         async def wrapper(self, *args, **kwargs):
             try:
                 await self.browser.start_alt() ## start playwright
-                self.browser.start()
                 result = await fn(self, *args, **kwargs)
                 return result
             
@@ -58,7 +58,7 @@ class ClientMain:
 
             finally:
                 await self.browser.stop_alt() ### Stop playwright
-                self.browser.stop()
+           
 
         return wrapper
 
@@ -102,7 +102,12 @@ class ClientMain:
                 
                 for r in results:
                
-                    if r.get('type') == 'error': continue
+                    if r.get('type') == 'error': 
+                        err_str = f'There was an error fetching a link from: {source}'
+                        print(err_str) 
+                        logger.info(err_str)   
+                        continue
+
                     new_urls_total += await self.save_links(r, source)
 
         return new_urls_total
@@ -129,18 +134,22 @@ class ClientMain:
             return 0
         
         else:
-       
-            for obj in result:
- 
-                if not obj.get('url'): continue
-             
-                valid = self.validate(source, obj.get('address', None), obj.get('price', None))
-            
-             
-                obj['valid'] = True if valid else False
-                          
+            if not result: logger.warning(f'No result from {source} in save link')
 
-            return await storeFullData(obj, source)
+            if result :
+                for obj in result:
+    
+                    if not obj.get('url'): continue
+                
+                    valid = self.validate(source, obj.get('address', None), obj.get('price', None))
+                
+                
+                    obj['valid'] = True if valid else False
+                            
+
+                return await storeFullData(obj, source)
+            
+            return 0
 
         
      
@@ -182,8 +191,10 @@ class ClientMain:
         elif method == 'aiohttp':
           
             response = await self.session.get(url) 
-            text_data = await response.text()
-            result = {'result': text_data, 'type': 'page'}
+            if response.ok:
+                text_data = await response.text()
+                result = {'result': text_data, 'type': 'page'}
+    
 
         return result if result else {'result': None, 'type': 'error'}
        

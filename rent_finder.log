@@ -198,3 +198,45 @@ ERROR:asyncio:Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x731a40224a40>
 ERROR:asyncio:Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x7454c122bbf0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7e2727dbe1e0>
+INFO:controllers.client:There was an error fetching a link from: DuProprio
+INFO:controllers.client:There was an error fetching a link from: Louer
+INFO:controllers.client:There was an error fetching a link from: rentals
+INFO:controllers.client:There was an error fetching a link from: Louer
+INFO:controllers.client:There was an error fetching a link from: rentals
+INFO:controllers.client:There was an error fetching a link from: Louer
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7a50cd9807a0>
+ERROR:asyncio:Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x7a50cc0eae10>, 1305652.913634472), (<aiohttp.client_proto.ResponseHandler object at 0x7a50cc0eaff0>, 1305653.115701819)])']
+connector: <aiohttp.connector.TCPConnector object at 0x7a50cdb6c7a0>
+ERROR:asyncio:Future exception was never retrieved
+future: <Future finished exception=TargetClosedError('Target page, context or browser has been closed')>
+playwright._impl._errors.TargetClosedError: Target page, context or browser has been closed
+INFO:controllers.client:There was an error fetching a link from: DuProprio
+INFO:controllers.client:There was an error fetching a link from: rentals
+INFO:controllers.client:There was an error fetching a link from: rentals
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x79edd3140560>
+INFO:controllers.client:There was an error fetching a link from: DuProprio
+INFO:controllers.client:There was an error fetching a link from: rentals
+INFO:controllers.client:There was an error fetching a link from: rentals
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x798506d98b60>
+ERROR:asyncio:Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x7985062c1490>, 1306296.718302251)])', 'deque([(<aiohttp.client_proto.ResponseHandler object at 0x798504d8eff0>, 1306301.703486608), (<aiohttp.client_proto.ResponseHandler object at 0x798504d8e750>, 1306301.746539589)])']
+connector: <aiohttp.connector.TCPConnector object at 0x7985083e47a0>
+INFO:controllers.client:There was an error fetching a link from: rentals
+INFO:controllers.client:There was an error fetching a link from: rentals
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7da2e6d55280>
+INFO:controllers.client:There was an error fetching a link from: rentals
+INFO:controllers.client:There was an error fetching a link from: rentals
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f455519cbf0>
+INFO:controllers.client:There was an error fetching a link from: rentals
+INFO:controllers.client:There was an error fetching a link from: rentals
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7ed174b04860>
+WARNING:controllers.client:No result from Louer in save link

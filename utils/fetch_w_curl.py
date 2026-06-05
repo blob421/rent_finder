@@ -7,7 +7,8 @@ async def fetch_with_curl(url):
         "curl",
         "-4",  
         "-s",
-        "-L",         
+        "-L",
+        "-w", "%{http_code}",         
         url,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE
@@ -18,5 +19,10 @@ async def fetch_with_curl(url):
     if process.returncode != 0:
         print("curl error:", stderr.decode())
         return None
-  
-    return {'result': stdout.decode(), 'type': 'page'}
+    
+    all = stdout.decode()
+    body, code = all[:-3], all[-3:]
+
+    result = {'result': None, 'type': 'error'} if code != '200' else {'result': body, 'type': 'page'}
+
+    return result
