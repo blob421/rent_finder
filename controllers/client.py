@@ -24,7 +24,8 @@ FETCH_METHODS = {
     "Kijiji": "aiohttp",
     "GestiPro": "aiohttp",
     "RoomLala": "aiohttp",
-    "DuProprio": "aiohttp"
+    "DuProprio": "aiohttp",
+    "Rentola": 'aiohttp'
 }
 
 class ClientMain:
@@ -67,7 +68,7 @@ class ClientMain:
     async def fetch_links(self, constraint=None):
         error_string = 'Error fetching links from : '
         new_urls_total = 0
-        for n in range(4):
+        for n in range(10):
 
             urls = [{'source': 'Kijiji', 'limit': 4,
                      'urls': [f'https://www.kijiji.ca/b-a-louer/ville-de-quebec/logement/page-{n+1}/k0c30349001l1700121?ll=46.8715568%2C-71.36205240000001&radius=4.0&view=list',
@@ -84,7 +85,8 @@ class ClientMain:
                      
                      {'source': 'Louer', 'limit': 3 , 'urls': [f'https://louer.ca/quebec-city?types=tous-les-appartements&types=chambres&prix-min=0&prix-max=1000&p={n + 1}']},
                      {'source': 'RoomLala', 'limit': 2, 'urls': [f'https://fr.roomlala.ca/chambre-a-louer/wendake-795313/{n + 1}?nightRateMax=80&monthRateMax=800']},
-                     {'source': 'rentals', 'limit': 2, 'urls': [f'https://rentals.ca/quebec-city/under-1000?p={n + 1}']}]
+                     {'source': 'rentals', 'limit': 2, 'urls': [f'https://rentals.ca/quebec-city/under-1000?p={n + 1}']},
+                     {'source': 'Rentola', 'limit': 11, 'urls': [f'https://rentola.ca/for-rent?location=quebec&order=desc&property_types=room&property_types=apartment&property_types=studio&property_types=student-apartment&rent=0-1000&page={n + 1}']}]
             
            
             for obj in urls:
@@ -122,6 +124,19 @@ class ClientMain:
             urls = None
             if source == 'RoomLala':
                 urls = extractRootJson(result, source)
+
+            elif source == 'Rentola':
+               dataset = await self.getFullData(source, result)
+               if dataset:
+                    count = 0
+                    for d in dataset:
+                        valid = self.validate(source, d.get('address', None), d.get('price', None))
+                        d['valid'] = valid
+
+                        count += await storeFullData(d, source)
+
+                    return count
+             
 
             else:
                 soup = BeautifulSoup(result, 'html.parser')        
@@ -298,19 +313,64 @@ class ClientMain:
         return valid
             
  
-      
-    async def test_site(self):
-        await self.browser.start_alt()
-        url = f'https://www.lespac.com/search/results?keywords=logement&geographicAreaId=15769&latitude=46.870284000000005&longitude=-71.36330700000018&cityLocation=true&categoryId=457'
-
-        html = await self.browser.getPageHtml(url, 'LesPacs')
+    async def getFullData(self, source, html):
+        dataset = []
         soup = BeautifulSoup(html, 'html.parser')
-        anch = soup.find_all('a', class_="MuiButtonBase-root")
-        print(len(anch))
-      
+        if source == 'Rentola':
+            scripts = soup.find_all('script', {'type': 'application/ld+json'})
+            for s in scripts:
+            
+                text = s.string
+                parsed = json.loads(text)
+                if parsed.get('@type') == 'SearchResultsPage':
+                
+                    listings = parsed.get('mainEntity', {}).get('itemListElement', [])
+                    if listings:
+                        for e in listings:
+                            if e.get('@type') == 'ListItem':
+                                item = e.get('item', {})
 
-        #print([a.get('href') for a in anch])
-        await self.browser.stop_alt()
+                                url = item.get('url', None)
+                                offers = item.get('offers', {})
+
+                                price = offers.get('price', None)  
+                                address = offers.get('itemOffered', {}).get("address", {}).get('streetAddress', None)
+        
+                                dataset.append({'url': url, 'price': price, 'address': address})
+        return dataset  
+
+
+
+    async def test_site(self):
+       
+        url = f'https://rentola.ca/for-rent?location=quebec&order=desc&property_types=room&property_types=apartment&property_types=studio&property_types=student-apartment&rent=0-1000&page=1'
+        dataset = []
+        resp = await self.session.get(url)
+        html = await resp.text()
+       
+        soup = BeautifulSoup(html, 'html.parser')
+        scripts = soup.find_all('script', {'type': 'application/ld+json'})
+        for s in scripts:
+         
+            text = s.string
+            parsed = json.loads(text)
+            if parsed.get('@type') == 'SearchResultsPage':
+             
+                listings = parsed.get('mainEntity', {}).get('itemListElement', [])
+                if listings:
+                    for e in listings:
+                        if e.get('@type') == 'ListItem':
+                            item = e.get('item', {})
+
+                            url = item.get('url', None)
+                            offers = item.get('offers', {})
+
+                            price = offers.get('price', None)  
+                            address = offers.get('itemOffered', {}).get("address", {}).get('streetAddress', None)
+      
+                            dataset.append({'url': url, 'price': price, 'address': address})
+        return dataset
+       
 
 
 

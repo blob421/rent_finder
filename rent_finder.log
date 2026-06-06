@@ -240,3 +240,36 @@ INFO:controllers.client:There was an error fetching a link from: rentals
 ERROR:asyncio:Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x7ed174b04860>
 WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7ef19c7c2ae0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7430ebfcaae0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x74fd438f43b0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x735bfb46c4a0>
+ERROR:asyncio:Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x735bfb453170>, 6715.583264922)])']
+connector: <aiohttp.connector.TCPConnector object at 0x735bfb46c4d0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x71f892d283b0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7ff8780283b0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x71c12f5e0500>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x73612eea8500>
+ERROR:asyncio:Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x73612d825b50>, 8308.930469702)])']
+connector: <aiohttp.connector.TCPConnector object at 0x73612e996fc0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x79e2d9f51310>

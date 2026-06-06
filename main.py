@@ -25,6 +25,7 @@ async def client_main(session, notifier, browser, config):
         start_time = datetime.now()
 
         #await client.test_site()
+   
         new_urls = await client.fetch_links()
         await client.process_links()
 
@@ -32,9 +33,11 @@ async def client_main(session, notifier, browser, config):
         difference = (end_time - start_time).total_seconds() / 60
         print(f'\nMain loop finished at {end_time.strftime('%d/%m/%Y, %H:%M:%S')}')
         print(f'Duration : {difference} minutes')
-        print(f'New listings : {new_urls}\n')
+        print(f'New listings : {new_urls}\n') 
+        
+     
         await asyncio.sleep(60* 60 * 2 + random.uniform(5, 30))
-       
+      
 
 async def main():
     await init_db()

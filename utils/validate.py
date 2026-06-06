@@ -92,7 +92,7 @@ def parse_json(data, source):
              
 
         
-        if source not in ['Louer', 'rentals']:
+        if source not in ['Louer', 'rentals', 'Rentola']:
          
             offers = data.get("offers") or {}
             price = offers.get("price", None)
