@@ -9,16 +9,22 @@ import json
 import os
 import re 
 import random
+import threading
 
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'config.json')
 
+buffer = []
+def timeoutInput():
+    buffer.append(input("\nUse this config ? (y or n) : "))
+
 async def client_main(session, notifier, browser, config):
-    '╔══════════════════════════════════════════════╗'
+    
     print("\n\n######################################################")
     print("-------------------- RENT FINDER ---------------------")
     print("######################################################")
     print('\nReady to blast')
     client = ClientMain(session, notifier, browser, config)
+
 
     while True:
         
@@ -54,7 +60,7 @@ async def main():
 
     finally:
         await browser.stop_alt()
-        await browser.stop()
+        
   
       
 def load_config():
@@ -77,16 +83,24 @@ def load_config():
         print(f'Keyword: {keyword}, max_price: {price}, postal_code: {postal}')
 
         while True:
-            confirm = input("\nUse this config ? (y or n) : ")
-
-            if confirm.lower().strip() in ['yes', 'y']:
-                return config
+            buffer = []
+            thread = threading.Thread(target=timeoutInput)
+            thread.daemon = True
+            thread.start()
+            thread.join(20)
             
-            elif confirm.lower().strip() in ['n', 'no']:
-                return None
+            if buffer:
+                confirm = buffer[0]
+                if confirm.lower().strip() in ('yes', 'y'):
+                    return config
+                
+                elif confirm.lower().strip() in ('n', 'no'):
+                    return None
+                else:
+                    print("Invalid choice , please enter (yes, no , y or n)")
+                    continue
             else:
-                print("Invalid choice , please enter (yes, no , y or n)")
-                continue
+                return config
       
         
   

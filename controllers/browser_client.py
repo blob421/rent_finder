@@ -18,7 +18,10 @@ class BrowserClient:
         self.page = await self.alt_driver.new_page()
      
     async def stop_alt(self):
-        if self.alt_driver and self.playwright_client:
+        if self.page:
+              await self.page.close()
+              
+        if self.alt_driver and self.playwright_client:      
             await self.alt_driver.close()
             await self.playwright_client.stop()
 
