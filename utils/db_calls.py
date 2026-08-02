@@ -77,3 +77,13 @@ async def storeFullData(cur, obj:object, source, err_str='Error storing full dat
                                                   [time, obj.get('url') , obj.get('valid'), source, True, obj.get('price', None)])
     
     return cur.rowcount
+
+@use_sqlite
+async def isUrl(cur, err_str='Error checking if an url was present', url=None):
+    if not url: return
+   
+    results = await cur.execute("""SELECT * FROM links WHERE url=?""", (url,))
+
+    if results:
+        return True
+    return False

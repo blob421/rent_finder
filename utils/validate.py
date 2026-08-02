@@ -171,12 +171,14 @@ def clean_price(raw):
         return None
 
     # Remove non-breaking spaces and any unicode spaces
-    cleaned = re.sub(r'\s+', '', raw)
+    cleaned = re.sub(r'[\s$]+', '', raw)
 
     # Remove currency symbols
-    cleaned = cleaned.replace('$', '').replace('CAD', '')
+    cleaned = cleaned.replace('CAD', '')
 
-    # Remove commas
-    cleaned = cleaned.replace(',', '')
+    if '.' in cleaned:
+        cleaned = cleaned.split('.')[0]
+    elif ',' in cleaned:
+        cleaned = cleaned.split(',')[0]
 
     return int(cleaned)

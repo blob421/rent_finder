@@ -3,7 +3,7 @@ import aiohttp
 import json
 import asyncio
 from utils.fetch_w_curl import fetch_with_curl
-from utils.db_calls import storelinks, get_links, mark_valid, storeFullData
+from utils.db_calls import storelinks, get_links, mark_valid, storeFullData, isUrl
 from utils.validate import url_valid, parse_json, extractRootJson, hasStructureChanged, parseLesPacs
 import random
 import logging
@@ -13,7 +13,7 @@ import os
 current_dir = os.path.dirname(__file__)
 log_path = os.path.abspath(os.path.join(current_dir, '../rent_finder.log'))
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename='rent_finder.log', level=logging.INFO)
+logging.basicConfig(filename=log_path, level=logging.INFO)
 
 ###################################################################
 FETCH_METHODS = {
@@ -130,10 +130,10 @@ class ClientMain:
                if dataset:
                     count = 0
                     for d in dataset:
-                        valid = self.validate(source, d.get('address', None), d.get('price', None))
-                        d['valid'] = valid
-
-                        count += await storeFullData(d, source)
+                        if not await isUrl(url=d.get('url')):
+                            valid = self.validate(source, d.get('address', None), d.get('price', None))
+                            d['valid'] = valid
+                            count += await storeFullData(d, source)
 
                     return count
              
@@ -150,21 +150,24 @@ class ClientMain:
         
         else:
             if not result: logger.warning(f'No result from {source} in save link')
-
+            url_count = 0
             if result :
+                
                 for obj in result:
-    
+     
                     if not obj.get('url'): continue
-                
-                    valid = self.validate(source, obj.get('address', None), obj.get('price', None))
-                
-                
-                    obj['valid'] = True if valid else False
+
+                    if not await isUrl(url=obj.get('url')):
+
+                        valid = self.validate(source, obj.get('address', None), obj.get('price', None))
+                    
+                    
+                        obj['valid'] = True if valid else False
                             
 
-                return await storeFullData(obj, source)
+                        url_count += await storeFullData(obj, source)
             
-            return 0
+            return url_count
 
         
      
@@ -284,21 +287,30 @@ class ClientMain:
 
        
     def validate(self, source, address, price, description=None):
-        valid = False
-        if address:
-            if (self.config.get('keyword') in address.lower() 
-                                           or self.config.get('postal_code') in address.lower()
-                                           or self.config.get('p_alt') in address.lower()):
-                valid = True
+        valid = True
+        keyword = self.config.get('keyword', None)
+        pc = self.config.get('postal_code', None)
+        notable = False
 
-        if description:
+        if keyword and pc:
+            
+            if address:
+                if (keyword in address.lower() 
+                                            or pc in address.lower()
+                                            or self.config.get('p_alt') in address.lower()):
+                    valid = True
+                    notable = True
 
-            if (self.config.get('keyword') in description.lower()
-                                           or self.config.get('postal_code') in description.lower()
-                                           or self.config.get('p_alt') in description.lower()):
-                valid = True
+            if description:
 
-        if price and int(price) > self.config.get('max_price'):
+                if (keyword in description.lower()
+                                            or pc in description.lower()
+                                            or self.config.get('p_alt') in description.lower()):
+                    valid = True
+                    notable = True
+
+        if price and (int(price) > self.config.get('max_price') 
+                       or int(price) < self.config.get('min_price')):
                 
                 valid = False
 
@@ -307,8 +319,12 @@ class ClientMain:
              print(f'\nFound a valid appartment !, Source: {source} , Price: {price}')
              print('\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
-             self.notifier.send('Found an appartment !', f"""Source: {source}, 
-                                                             Price: {price}$""")
+             if not notable:
+                 self.notifier.send('Range match !', f"""Source: {source}, 
+                                                                 Price: {price}$""")
+             else:
+                 self.notifier.send('LUCKY FIND !!', f"""Source: {source}, 
+                                                         Price: {price}$""")
 
         return valid
             
