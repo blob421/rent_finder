@@ -169,16 +169,12 @@ import re
 def clean_price(raw):
     if not raw:
         return None
+       
+    match = re.match(r'^\d{1,3},\d{3}[.\s]*', raw)
 
-    # Remove non-breaking spaces and any unicode spaces
-    cleaned = re.sub(r'[\s$]+', '', raw)
+    if ',' in raw and not match:
+        raw = raw.split(',')[0]  ## It means the format is like 1200,00
 
-    # Remove currency symbols
-    cleaned = cleaned.replace('CAD', '')
-
-    if '.' in cleaned:
-        cleaned = cleaned.split('.')[0]
-    elif ',' in cleaned:
-        cleaned = cleaned.split(',')[0]
+    cleaned = re.sub(r'[\sa-zA-Z,$]+', '', raw)
 
     return int(cleaned)
