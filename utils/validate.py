@@ -4,6 +4,8 @@ import re
 
 logisqc_regex = r'^/[^/]+$'
 
+sources = {'Kijiji': {"url": "https://www.kijiji.ca", "forbidden": 'radius='},
+           'rentals': {"url": 'https://rentals.ca/quebec-city/'}}
 #This function is for filtering <a> tags from a whole page 
 def url_valid(url:str, source):
     if not url : return
@@ -170,7 +172,7 @@ def clean_price(raw):
     if not raw:
         return None
        
-    match = re.match(r'^\d{1,3},\d{3}[.\s]*', raw)
+    match = re.match(r'.?\d{1,3},\d{3}[.\s]*', raw)
 
     if ',' in raw and not match:
         raw = raw.split(',')[0]  ## It means the format is like 1200,00
