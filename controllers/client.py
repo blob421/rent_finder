@@ -263,14 +263,21 @@ class ClientMain:
             valid = False
 
             for s in scripts:
-                data = s.string
-                parsed = json.loads(data)
-                result = parse_json(parsed, source)
+                try:
+                    data = s.string
+                    parsed = json.loads(data)
+                    result = parse_json(parsed, source)
 
-                if result:                 
-                    price = result.get('price') or price
-                    address = result.get('address') or address
-                    description = result.get('description') or description
+                    if result:                 
+                        price = result.get('price') or price
+                        address = result.get('address') or address
+                        description = result.get('description') or description
+
+                except TypeError:
+                    print(f'Error : json for this url is none  : {l}')
+                    continue
+                except:
+                    print(f'Error : this url contains malformed json : {l}')
 
                 
             if source == 'GestiPro' and not price:
@@ -278,10 +285,15 @@ class ClientMain:
                 if pricetag:
                     price = pricetag.get_text(strip=True).replace('$', '').replace(',', '')
 
-        hasStructureChanged(source, {'price': price, 'description': description, 'address': address})
+        if price:
+            hasStructureChanged(source, {'price': price, 'description': description, 'address': address})
+            valid = self.validate(source, address, price, description)
+            await mark_valid({'url':l, 'price': price, 'valid': valid})
 
-        valid = self.validate(source, address, price, description)
-        await mark_valid({'url':l, 'price': price, 'valid': valid})
+        else:
+            print(f'No price found on this page: {l}')
+            await mark_valid({'url': l, 'price': None, 'valid': False})   
+            
 
 
 
@@ -308,6 +320,8 @@ class ClientMain:
                                             or self.config.get('p_alt') in description.lower()):
                     valid = True
                     notable = True
+
+
 
         if price and (int(price) > self.config.get('max_price') 
                        or int(price) < self.config.get('min_price')):

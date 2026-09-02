@@ -481,3 +481,250 @@ WARNING:controllers.client:No result from Louer in save link
 ERROR:asyncio:Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x75f13c661a00>
 WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f37b2108e00>
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x768fb16cc980>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x712775cdd190>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+INFO:controllers.client:There was an error fetching a link from: Kijiji
+INFO:controllers.client:There was an error fetching a link from: Kijiji
+INFO:controllers.client:There was an error fetching a link from: Kijiji
+WARNING:controllers.client:No result from Louer in save link
+INFO:controllers.client:There was an error fetching a link from: Kijiji
+INFO:controllers.client:There was an error fetching a link from: Kijiji
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7dc60b5d6600>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7b70bc93d010>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x71b8b5304980>
+ERROR:asyncio:Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x71b8b13d9190>, 1352862.907518768)])']
+connector: <aiohttp.connector.TCPConnector object at 0x71b8b2d558e0>
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7ea0f59ece30>
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7cfe82ea8a70>
+ERROR:asyncio:Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x7cfe82383b90>, 1372388.3883723)])']
+connector: <aiohttp.connector.TCPConnector object at 0x7cfe82d09010>
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x74d977ddb770>
+ERROR:asyncio:Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x74d975fba930>, 1413086.233612474)])']
+connector: <aiohttp.connector.TCPConnector object at 0x74d977d7b7a0>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+INFO:controllers.client:There was an error fetching a link from: Rentola
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7df9dc3f1e50>
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x70ee0e4b03e0>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x736debadf950>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+INFO:controllers.client:There was an error fetching a link from: Kijiji
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7ed45a884980>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7149b7cb4980>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f5d951096a0>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7d367832fb90>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7565a9a40bc0>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x73463b91ba40>
+ERROR:asyncio:Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x734639773410>, 469552.618668349)])', 'deque([(<aiohttp.client_proto.ResponseHandler object at 0x734639911d90>, 469553.758223936)])']
+connector: <aiohttp.connector.TCPConnector object at 0x73463b9185f0>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link
+ERROR:asyncio:Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x761c5dd9f6b0>
+ERROR:asyncio:Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x761c56f8f770>, 478546.830211536)])', 'deque([(<aiohttp.client_proto.ResponseHandler object at 0x761c5701e270>, 478548.09442221)])']
+connector: <aiohttp.connector.TCPConnector object at 0x761c5d6a3860>
+WARNING:controllers.client:No result from Louer in save link
+WARNING:controllers.client:No result from Louer in save link

@@ -174,9 +174,21 @@ def clean_price(raw):
        
     match = re.match(r'.?\d{1,3},\d{3}[.\s]*', raw)
 
-    if ',' in raw and not match:
-        raw = raw.split(',')[0]  ## It means the format is like 1200,00
+    if not match:
 
-    cleaned = re.sub(r'[\sa-zA-Z,$]+', '', raw)
+        if (',' in raw and '.' in raw):
+            raw = raw.split('.')[0]  ## $1,200.99 => 1,200
 
-    return int(cleaned)
+        elif ',' in raw:
+            raw = raw.split(',')[0]  ## 1200,00   => 1200
+
+        elif '.' in raw:
+            raw = raw.split('.')[0]  ## 1200.99   => 1200
+
+    cleaned = re.sub(r'[\sa-zA-Z,$]+', '', raw)  ## 1200
+
+    try:
+       return int(cleaned)
+    except Exception:
+        print(f'Wow this price is messed up ! :{raw}')
+
