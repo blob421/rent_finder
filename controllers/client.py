@@ -288,6 +288,10 @@ class ClientMain:
         if price:
             hasStructureChanged(source, {'price': price, 'description': description, 'address': address})
             valid = self.validate(source, address, price, description)
+            
+            if valid:
+                print('\n')
+                print(l)
             await mark_valid({'url':l, 'price': price, 'valid': valid})
 
         else:
@@ -332,6 +336,8 @@ class ClientMain:
              print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
              print(f'\nFound a valid appartment !, Source: {source} , Price: {price}')
              print('\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+   
+
 
              if not notable:
                  self.notifier.send('Range match !', f"""Source: {source}, 
