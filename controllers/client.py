@@ -225,8 +225,8 @@ class ClientMain:
             playwright_started = False
 
             for obj in links:
-                l = obj[0]
-                source = obj[3]
+                l = obj[1]
+                source = obj[4]
 
                 if not playwright_started and FETCH_METHODS.get(source) == 'browser': 
                     await self.browser.start_alt() ## start playwright
@@ -303,7 +303,7 @@ class ClientMain:
 
        
     def validate(self, source, address, price, description=None):
-        valid = True
+        valid = False
         keyword = self.config.get('keyword', None)
         pc = self.config.get('postal_code', None)
         notable = False
@@ -311,26 +311,28 @@ class ClientMain:
         if keyword and pc:
             
             if address:
-                if (keyword in address.lower() 
-                                            or pc in address.lower()
-                                            or self.config.get('p_alt') in address.lower()):
+                if ((keyword in address.lower() and keyword.strip() != '')
+                                            or (pc in address.lower() and pc.strip() != '')
+                                            or (self.config.get('p_alt') in address.lower() 
+                                                and self.config.get('p_alt').strip() != '')):
                     valid = True
                     notable = True
 
             if description:
 
-                if (keyword in description.lower()
-                                            or pc in description.lower()
-                                            or self.config.get('p_alt') in description.lower()):
+                if ((keyword in description.lower() and keyword.strip() != '')
+                                            or (pc in description.lower() and pc.strip() != '')
+                                            or (self.config.get('p_alt') in description.lower() 
+                                                and self.config.get('p_alt').strip() != '')):
                     valid = True
                     notable = True
 
 
 
-        if price and (int(price) > self.config.get('max_price') 
-                       or int(price) < self.config.get('min_price')):
+        if price and (int(price) < self.config.get('max_price') 
+                       and int(price) > self.config.get('min_price')):
                 
-                valid = False
+                valid = True
 
         if valid:
              print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")

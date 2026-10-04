@@ -32,14 +32,17 @@ async def client_main(session, notifier, browser, config):
 
         #await client.test_site()
    
-        new_urls = await client.fetch_links()
-        await client.process_links()
+        #new_urls = await client.fetch_links()
+        try:
+          await client.process_links()
+        except Exception as e:
+            print(e)
 
         end_time = datetime.now()
         difference = (end_time - start_time).total_seconds() / 60
         print(f'\nMain loop finished at {end_time.strftime('%d/%m/%Y, %H:%M:%S')}')
         print(f'Duration : {difference} minutes')
-        print(f'New listings : {new_urls}\n') 
+       # print(f'New listings : {new_urls}\n') 
         
      
         await asyncio.sleep(60* 60 * 2 + random.uniform(5, 30))
@@ -71,16 +74,17 @@ def load_config():
     
     with open(CONFIG_PATH, 'r') as f:
         config = json.loads(f.read())
-        keyword = config.get('keyword')
-        price = config.get('max_price')
-        postal = config.get('postal_code')
+        keyword = config.get('keyword', None)
+        price = config.get('max_price', None)
+        postal = config.get('postal_code', None)
+        min_price = config.get('min_price', None)
 
-        if not keyword or not postal or not price:
+        if not keyword and not postal and not price :
 
             return None
           
         print('Config detected : ')
-        print(f'Keyword: {keyword}, max_price: {price}, postal_code: {postal}')
+        print(f'Keyword: {keyword}, max_price: {price}, min_price:{min_price}, postal_code: {postal}')
 
         while True:
             buffer = []
@@ -108,7 +112,11 @@ def load_config():
 def setup():
     print("\n\n*********************** RENT FINDER SETUP ***********************\n")
     while True:
-        keyword = input('Enter a keyword to look for in (description, address) : ')
+        keyword = input('Enter a keyword to look for in (description, address) : (enter to skip)')
+     
+        if keyword == '' or not keyword:
+            break
+
         if not len(keyword) > 3:
             print('Invalid keyword, must be at lest 3 characters')
             continue
@@ -133,19 +141,37 @@ def setup():
         except Exception:
             print('Invalid price , please provide a valid number')
 
+    while True:
+            min_price = input('\nEnter a minimum price (e.g. 750) : ')
+            try:
+                min_price = int(max_price)
+                confirm = input(f"Confirm min_price of {min_price} (y or n) : ")
+                if confirm.lower().strip() == 'y' or confirm.lower().strip() == 'yes':
+                    break
+                continue
+            
+            except Exception:
+                print('Invalid price , please provide a valid number')
+
     while True:    
 
         postal_code = input('\nEnter a specific postal code or press ENTER to ignore : ')
+
+        if postal_code == '' or not postal_code:
+            break
+
         confirm = input(f"Confirm postal code '{postal_code}' (y or n) : ")
         if confirm.lower().strip() == 'y' or confirm.lower().strip() == 'yes':
             postal_code = re.sub(r'\s+', '', postal_code.lower())
             break
+
+
         continue
 
     p_alt = postal_code[0:(len(postal_code) // 2)] + " " + postal_code[(len(postal_code) // 2):]
  
     with open(CONFIG_PATH, 'w') as f:
-        f.write(json.dumps({'keyword': keyword, 'max_price': max_price, 
+        f.write(json.dumps({'keyword': keyword, 'max_price': max_price, 'min_price': min_price, 
                             'postal_code': postal_code , 'p_alt':p_alt}))
         
         print('Configuration saved in config.json')

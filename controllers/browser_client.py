@@ -10,6 +10,7 @@ class BrowserClient:
         self.logger = logging.getLogger(__name__)
         self.playwright_client = None
         self.alt_driver = None
+        self.page = None
 
     async def start_alt(self):
         self.playwright_client = await async_playwright().start()

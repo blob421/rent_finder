@@ -28,7 +28,8 @@ async def init_db(cur, err_str="Failed to init db"):
                                                         checked BOOLEAN DEFAULT false, 
                                                         valid BOOLEAN DEFAULT false,
                                                         source VARCHAR(50),
-                                                        price INTEGER DEFAULT NULL)""")
+                                                        price INTEGER DEFAULT NULL,
+                                                        url_prefix TEXT)""")
     
     await cur.execute("""CREATE UNIQUE INDEX IF NOT EXISTS "unique_url_prefix" ON "links" ("url_prefix")""")
     
